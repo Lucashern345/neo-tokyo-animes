@@ -100,3 +100,34 @@ function toggleMenu() {
 function showCredits() {
     alert("CRÉDITOS:\nImagens: TMDB / Wallhaven\nFontes: AnimeFire, AnimesOnline, RedeCanais\nSistema: Neo-Tokyo v1.0");
 }
+// Função para detectar AdBlock
+async function checkAdBlock() {
+  let adBlockEnabled = false;
+  const googleAdUrl = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
+  
+  try {
+    const response = await fetch(new Request(googleAdUrl, { method: 'HEAD', mode: 'no-cors' }));
+    adBlockEnabled = false; // Se conseguiu baixar o script do Google, tá sem Adblock
+  } catch (e) {
+    adBlockEnabled = true; // Se deu erro, o Adblock bloqueou o domínio do Google Ads
+  }
+
+  if (adBlockEnabled) {
+    showAdBlockWarning();
+  }
+}
+
+function showAdBlockWarning() {
+  const warning = document.createElement('div');
+  warning.innerHTML = `
+    <div style="position: fixed; bottom: 20px; right: 20px; background: #bc13fe; color: #fff; padding: 15px; border-radius: 10px; z-index: 10000; box-shadow: 0 0 15px rgba(0,0,0,0.5); font-family: sans-serif; max-width: 250px; border: 2px solid #fff;">
+      <strong>EI, EXPLORADOR! 🤖</strong><br>
+      Detectamos que você usa AdBlock. O <b>Neo-Tokyo</b> é mantido por esses links. Considere desativar para apoiar o projeto e liberar os servidores!
+      <button onclick="this.parentElement.remove()" style="margin-top: 10px; background: #fff; color: #bc13fe; border: none; padding: 5px 10px; cursor: pointer; border-radius: 5px; font-weight: bold;">ENTENDI</button>
+    </div>
+  `;
+  document.body.appendChild(warning);
+}
+
+// Executa a checagem após 3 segundos
+setTimeout(checkAdBlock, 3000);
