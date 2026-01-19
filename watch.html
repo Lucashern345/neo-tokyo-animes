@@ -5,69 +5,138 @@
     <title>NEO-TOKYO // Stream_Access</title>
     <link rel="stylesheet" href="style.css">
     <style>
-    /* Container principal ajustado para não vazar */
-    .player-container { 
-        max-width: 800px; 
-        width: 90%; /* Garante que em telas pequenas ele ocupe 90% da largura */
-        margin: 20px auto; 
-        padding: 20px; 
-        background: var(--card-bg); 
-        border: 1px solid var(--primary);
-        box-sizing: border-box; /* Fundamental para o padding não somar na largura */
-    }
+  /* RESET BÁSICO PARA EVITAR QUEBRAS */
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
 
-    /* Header responsivo: em celular fica um embaixo do outro */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #050505; /* Fundo escuro padrão */
+    color: var(--text);
+}
+
+/* CONTAINER PRINCIPAL */
+.player-container { 
+    max-width: 800px; 
+    width: 95%; /* Ocupa quase tudo no celular */
+    margin: 20px auto; 
+    padding: 20px; 
+    background: var(--card-bg); 
+    border: 1px solid var(--primary);
+    box-shadow: 0 0 20px rgba(188, 19, 254, 0.2);
+}
+
+/* LINK DE VOLTAR */
+.back-link { 
+    color: var(--primary); 
+    text-decoration: none; 
+    margin-bottom: 20px; 
+    display: inline-block; 
+    font-family: monospace;
+    font-size: 0.9rem;
+}
+.back-link:hover { text-shadow: 0 0 10px var(--primary); }
+
+/* HEADER (POSTER + INFO) */
+.view-header { 
+    display: flex; 
+    flex-direction: row; /* Lado a lado no PC */
+    gap: 20px; 
+    margin-bottom: 30px; 
+    align-items: flex-start;
+}
+
+.view-poster { 
+    width: 180px; 
+    height: auto;
+    border: 1px solid var(--secondary);
+    flex-shrink: 0; /* Impede a imagem de esmagar */
+}
+
+.info-text {
+    flex: 1;
+}
+
+.info-text h1 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    color: var(--secondary);
+    text-transform: uppercase;
+}
+
+/* BOTÕES DE SERVIDOR */
+h3 {
+    font-family: monospace;
+    color: var(--primary);
+    border-bottom: 1px solid var(--primary);
+    padding-bottom: 5px;
+    font-size: 1rem;
+}
+
+.source-btn { 
+    display: block; 
+    width: 100%; 
+    padding: 15px; 
+    margin: 10px 0;
+    background: rgba(0, 229, 255, 0.05); 
+    border: 1px solid var(--secondary);
+    color: var(--secondary); 
+    text-align: left; 
+    text-decoration: none;
+    font-family: monospace; 
+    transition: 0.3s;
+    word-wrap: break-word; /* Faz o texto quebrar se for longo */
+}
+
+.source-btn:hover { 
+    background: var(--secondary); 
+    color: #000; 
+    box-shadow: 0 0 15px var(--secondary); 
+}
+
+/* AJUSTES PARA CELULAR (MOBILE-FIRST) */
+@media (max-width: 600px) {
     .view-header { 
-        display: flex; 
-        flex-wrap: wrap; /* Permite quebra de linha */
-        gap: 20px; 
-        margin-bottom: 30px; 
+        flex-direction: column; /* Poster em cima, texto embaixo */
+        align-items: center; 
+        text-align: center; 
     }
 
     .view-poster { 
-        width: 150px; /* Reduzi um pouco para caber melhor */
-        height: auto;
-        border: 1px solid var(--secondary); 
+        width: 150px; /* Poster um pouco menor no celular */
+        margin-bottom: 15px;
     }
 
-    .info-text {
-        flex: 1; /* Faz o texto ocupar o resto do espaço */
-        min-width: 250px; /* Se a tela for menor que isso, ele pula pra baixo */
+    .info-text h1 {
+        font-size: 1.4rem;
     }
 
-    /* Botão de servidor corrigido */
-    .source-btn { 
-        display: block; 
-        width: 100%; 
-        padding: 15px; 
-        margin: 10px 0;
-        background: transparent; 
-        border: 1px solid var(--secondary);
-        color: var(--secondary); 
-        text-align: left; 
-        text-decoration: none;
-        font-family: monospace; 
-        transition: 0.3s;
-        box-sizing: border-box; /* Impede que o botão "vaze" pra fora da borda */
-        overflow: hidden; /* Corta o texto se for bizarramente longo */
-        text-overflow: ellipsis; 
-        white-space: nowrap; /* Mantém o texto em uma linha com reticências se necessário */
+    .player-container {
+        padding: 15px;
+        margin: 10px auto;
     }
 
-    .source-btn:hover { 
-        background: var(--secondary); 
-        color: #000; 
-        box-shadow: 0 0 15px var(--secondary); 
+    .source-btn {
+        padding: 12px;
+        font-size: 0.85rem;
+        white-space: normal; /* Permite que o texto do botão ocupe 2 linhas se precisar */
     }
+}
 
-    .back-link { color: var(--primary); text-decoration: none; margin-bottom: 20px; display: inline-block; }
-
-    /* Ajuste para telas muito pequenas */
-    @media (max-width: 480px) {
-        .view-header { justify-content: center; text-align: center; }
-        .view-poster { width: 120px; }
-    }
-    </style>
+/* ESTILO DAS SCANLINES (OPCIONAL) */
+.scanlines {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    background-size: 100% 4px, 3px 100%;
+    pointer-events: none;
+    z-index: 9999;
+}
+</style>
 </head>
 <body>
     <div class="scanlines"></div>
