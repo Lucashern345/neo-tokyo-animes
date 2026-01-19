@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEO-TOKYO // Archive</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="scanlines"></div>
+
+    <!-- POPUP -->
+    <div id="sys-notification">
+        <div class="sys-box">
+            <img src="poster/zero2.png" class="sys-img" alt="Z2">
+            <div class="sys-text">
+                <h2>[!] PROTOCOLO_DE_ACESSO</h2>
+                <p>Este sistema é apenas um <strong>INDEXADOR DE METADADOS</strong>.</p>
+                <p>Não hospedamos arquivos. Links externos.</p>
+                <button class="btn-sys" onclick="confirmEntry()">
+                    ACEITAR_TERMOS.exe
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <header>
+        <div class="stats">
+            <span class="status-pulse"></span>
+            SYSTEM_ONLINE | NODES:
+            <span id="user-count">...</span>
+            | ENCRYPTED_SSL
+        </div>
+
+        <h1 id="typing-title"></h1>
+
+        <input
+            type="text"
+            id="searchBar"
+            placeholder="search_anime..."
+            onkeyup="filter()"
+        >
+    </header>
+
+    <nav class="nav-container">
+        <div class="menu-toggle" onclick="toggleMenu()">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+    
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="#home">HOME</a></li>
+             <li><a href="https://wallhaven.cc/" target="_blank">WALLPAPERS</a></li>
+            <li><a href="#" onclick="showCredits()">CRÉDITOS DAS IMAGENS</a></li>
+            <li><a href="mailto:seuemail@gmail.com">DMCA</a></li>
+            <li><a href="#">PEDIR_ANIME</a></li>
+        </ul>
+    </nav>
+
+    <!-- GRID -->
+    <main class="grid" id="contentGrid"></main>
+
+    <footer>
+        <p>[!] LEGAL_NOTICE: metadata index only.</p>
+        <p>2026_EST &lt;/&gt;</p>
+        <a href="https://pt.wikipedia.org/wiki/Rei_Ayanami"><img src="poster/Rei-Ayanami-Background-PNG.png" alt="Error" class="rei"></a>
+    </footer>
+
+    <script src="database.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

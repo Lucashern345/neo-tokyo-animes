@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NEO-TOKYO // Stream_Access</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+    /* Container principal ajustado para não vazar */
+    .player-container { 
+        max-width: 800px; 
+        width: 90%; /* Garante que em telas pequenas ele ocupe 90% da largura */
+        margin: 20px auto; 
+        padding: 20px; 
+        background: var(--card-bg); 
+        border: 1px solid var(--primary);
+        box-sizing: border-box; /* Fundamental para o padding não somar na largura */
+    }
+
+    /* Header responsivo: em celular fica um embaixo do outro */
+    .view-header { 
+        display: flex; 
+        flex-wrap: wrap; /* Permite quebra de linha */
+        gap: 20px; 
+        margin-bottom: 30px; 
+    }
+
+    .view-poster { 
+        width: 150px; /* Reduzi um pouco para caber melhor */
+        height: auto;
+        border: 1px solid var(--secondary); 
+    }
+
+    .info-text {
+        flex: 1; /* Faz o texto ocupar o resto do espaço */
+        min-width: 250px; /* Se a tela for menor que isso, ele pula pra baixo */
+    }
+
+    /* Botão de servidor corrigido */
+    .source-btn { 
+        display: block; 
+        width: 100%; 
+        padding: 15px; 
+        margin: 10px 0;
+        background: transparent; 
+        border: 1px solid var(--secondary);
+        color: var(--secondary); 
+        text-align: left; 
+        text-decoration: none;
+        font-family: monospace; 
+        transition: 0.3s;
+        box-sizing: border-box; /* Impede que o botão "vaze" pra fora da borda */
+        overflow: hidden; /* Corta o texto se for bizarramente longo */
+        text-overflow: ellipsis; 
+        white-space: nowrap; /* Mantém o texto em uma linha com reticências se necessário */
+    }
+
+    .source-btn:hover { 
+        background: var(--secondary); 
+        color: #000; 
+        box-shadow: 0 0 15px var(--secondary); 
+    }
+
+    .back-link { color: var(--primary); text-decoration: none; margin-bottom: 20px; display: inline-block; }
+
+    /* Ajuste para telas muito pequenas */
+    @media (max-width: 480px) {
+        .view-header { justify-content: center; text-align: center; }
+        .view-poster { width: 120px; }
+    }
+    </style>
+</head>
+<body>
+    <div class="scanlines"></div>
+    <div class="player-container">
+        <a href="index.html" class="back-link"><< RETURN_TO_DATABASE</a>
+        
+        <div class="view-header">
+    <img id="anime-poster" src="" class="view-poster">
+    <div class="info-text"> <h1 id="anime-title" style="margin:0;"></h1>
+        <p id="anime-desc" style="color: #888; font-size: 0.9rem;"></p>
+        <div id="anime-tags"></div>
+    </div>
+</div>
+        <h3>SELECT_STREAME_SOURCE:</h3>
+        <div id="source-list">
+            </div>
+    </div>
+
+    
+    <script src="database.js"></script>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const animeId = params.get('id');
+        const item = database.find(x => x.id === animeId);
+
+        if (item) {
+            document.getElementById('anime-title').innerText = item.title;
+            document.getElementById('anime-poster').src = item.image;
+            document.getElementById('anime-desc').innerText = item.description;
+            
+            const sourceList = document.getElementById('source-list');
+            item.sources.forEach(src => {
+                sourceList.innerHTML += `
+                    <a href="${src.url}" target="_blank" class="source-btn">
+                        [RUN] > ${src.name}
+                    </a>
+                `;
+            });
+        } else {
+            document.body.innerHTML = "<div style='color:red; text-align:center; margin-top:100px;'><h1>404: DATABASE_CRITICAL_ERROR</h1><a href='index.html' style='color:#00e5ff;'>RETURN_TO_HOME</a></div>";
+        }
+    </script>
+</body>
+</html>
